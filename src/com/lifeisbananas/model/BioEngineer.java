@@ -59,15 +59,11 @@ public class BioEngineer {
 
     // Constructors
 
-    /**
-     * Default constructor for JPA
-     */
+    // Default constructor for JPA
     public BioEngineer() {
     }
 
-    /**
-     * Constructor with essential fields
-     */
+    // Constructor with essential fields
     public BioEngineer(String name, String email, String phoneNumber, String specialization) {
         this.name = name;
         this.email = email;
@@ -110,7 +106,7 @@ public class BioEngineer {
         return instruction;
     }
 
-    // Getters and Setters
+    // --- Getters and Setters ---
 
     public Long getId() {
         return id;
