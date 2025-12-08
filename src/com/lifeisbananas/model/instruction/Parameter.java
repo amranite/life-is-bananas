@@ -1,53 +1,40 @@
 package com.lifeisbananas.model.instruction;
 
-import jakarta.persistence.*;
-
 /**
  * Represents a specific process parameter for the freeze-drying process.
  * Parameters define technical values like temperature, pressure, duration, etc.
  * that must be followed during the freeze-drying process.
  */
-@Entity
-@Table(name = "parameters")
 public class Parameter {
 
-    @Id
-    @Column(name = "parameter_id", length = 50)
+    // The id of the parameter
     private String parameterID;
 
     // Name/description of the parameter (e.g., "Temperature Phase 1", "Vacuum Pressure", "Drying Duration")
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     // The value of this parameter (can be numeric or text)
-    @Column(name = "value", nullable = false, length = 50)
     private String value;
 
     // Unit of measurement for this parameter (e.g., "°C", "mbar", "hours", "%")
-    @Column(name = "unit", length = 20)
     private String unit;
 
     // Minimum acceptable limit for this parameter
-    @Column(name = "minimum_limit")
     private Double minimumLimit;
 
     // Maximum acceptable limit for this parameter
-    @Column(name = "maximum_limit")
     private Double maximumLimit;
 
     /**
      * Indicates whether this parameter is critical for the process.
      * Critical parameters must be strictly followed.
      */
-    @Column(name = "critical", nullable = false)
     private Boolean critical;
 
     /**
      * The freeze-dry instruction this parameter belongs to.
      * Many-to-one relationship: many parameters belong to one instruction.
      */
-    @ManyToOne
-    @JoinColumn(name = "freeze_dry_instruction_id", nullable = false)
     private FreezeDryInstruction freezeDryInstruction;
 
     // -- Constructors ---

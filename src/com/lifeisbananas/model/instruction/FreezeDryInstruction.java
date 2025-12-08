@@ -1,8 +1,7 @@
 package com.lifeisbananas.model.instruction;
 
-import com.lifeisbananas.model.BioEngineer;
+import com.lifeisbananas.model.bioengineer.BioEngineer;
 import com.lifeisbananas.model.formula.Formula;
-import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,55 +11,42 @@ import java.util.List;
  * This document is generated for external production facilities and can be exported to PDF.
  * Contains step-by-step instructions and technical parameters for the freeze-drying process.
  */
-@Entity
-@Table(name = "freeze_dry_instructions")
 public class FreezeDryInstruction {
 
-    @Id
-    @Column(name = "instruction_id", length = 50)
+    // The id of the freeze drying instruction
     private String instructionID;
 
     // Name of the formula this instruction is based on
-    @Column(name = "formula_name", nullable = false, length = 100)
     private String formulaName;
 
     // Version of the instruction (e.g., "1.0", "2.1")
-    @Column(name = "version", length = 20)
     private String version;
 
     // Date when this instruction was created
-    @Column(name = "creation_date")
     private LocalDate creationDate;
 
     // Detailed step-by-step textual description of the freeze-drying process
-    @Column(name = "steps", columnDefinition = "TEXT")
     private String steps;
 
     // Additional remarks, notes, or warnings for the production facility
-    @Column(name = "remarks", columnDefinition = "TEXT")
     private String remarks;
 
     /**
      * The formula that this instruction is based on.
      * Many-to-one relationship: many instructions can be based on one formula.
      */
-    @ManyToOne
-    @JoinColumn(name = "formula_id", nullable = false)
     private Formula formula;
 
     /**
      * The bio-engineer who generated this instruction.
      * Many-to-one relationship: one engineer can generate many instructions.
      */
-    @ManyToOne
-    @JoinColumn(name = "bio_engineer_id", nullable = false)
     private BioEngineer bioEngineer;
 
     /**
      * Technical parameters for the freeze-drying process.
      * One-to-many aggregation: an instruction can contain multiple parameters.
      */
-    @OneToMany(mappedBy = "freezeDryInstruction", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Parameter> parameters = new ArrayList<>();
 
     // --- Constructors ---

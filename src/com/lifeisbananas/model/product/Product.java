@@ -1,9 +1,8 @@
 package com.lifeisbananas.model.product;
 
-import com.lifeisbananas.model.BioEngineer;
+import com.lifeisbananas.model.bioengineer.BioEngineer;
 import com.lifeisbananas.model.enums.ProductStatus;
 import com.lifeisbananas.model.formula.Formula;
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
 /**
@@ -11,57 +10,42 @@ import java.time.LocalDate;
  * product development and is ready for sale or testing.
  * Each product is based on a specific formula and tracks its lifecycle status.
  */
-@Entity
-@Table(name = "products")
 public class Product {
 
-    @Id
-    @Column(name = "product_id", length = 50)
+    // The id of the product
     private String productID;
 
     // Commercial name of the product (e.g., "Banana Chips Original", "Berry Mix Deluxe")
-    @Column(name = "name", nullable = false, length = 150)
     private String name;
 
     // Detailed description of the product for marketing and packaging
-    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     // Shelf life of the product in days from production date
-    @Column(name = "shelf_life")
     private Integer shelfLife;
 
     // Net weight of the product in grams
-    @Column(name = "weight")
     private Integer weight;
 
     // Unique batch number for traceability and quality control
-    @Column(name = "batch_number", length = 50)
     private String batchNumber;
 
     // Date when this product batch was produced
-    @Column(name = "production_date")
     private LocalDate productionDate;
 
     // Current lifecycle status of the product
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 30)
     private ProductStatus status;
 
     /**
      * The formula that this product is based on.
      * Many-to-one relationship: many products can be based on the same formula.
      */
-    @ManyToOne
-    @JoinColumn(name = "formula_id", nullable = false)
     private Formula formula;
 
     /**
      * The bio-engineer who developed this product.
      * Many-to-one relationship: one engineer develops many products.
      */
-    @ManyToOne
-    @JoinColumn(name = "bio_engineer_id", nullable = false)
     private BioEngineer bioEngineer;
 
     // --- Constructors ---

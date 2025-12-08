@@ -19,11 +19,12 @@
     </properties>
 
     <dependencies>
-        <!-- Jakarta Persistence API (JPA) -->
+
+        <!-- MySQL Connector -->
         <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.1.0</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.1.0</version>
         </dependency>
 
         <!-- Hibernate Core (JPA Implementation) -->

@@ -1,66 +1,50 @@
 package com.lifeisbananas.model.nutrition;
 
-import jakarta.persistence.*;
-
 /**
  * Represents detailed nutritional information per 100 grams of raw material.
  * This data is essential for labeling requirements and nutritional calculations.
  *
  * All values are measured per 100g of the raw material
  */
-@Entity
-@Table(name = "nutritional_values")
 public class NutritionalValue {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // The id of the nutritional value
     private Long id;
 
     // Energy content in kcal per 100g
-    @Column(name = "calories")
     private Double calories;
 
     // Protein content in grams per 100g
-    @Column(name = "proteins")
     private Double proteins;
 
     // Carbohydrate content in grams per 100g
-    @Column(name = "carbohydrates")
     private Double carbohydrates;
 
     // Fat content in grams per 100g
-    @Column(name = "fats")
     private Double fats;
 
     // Dietary fiber content in grams per 100g
-    @Column(name = "fibers")
     private Double fibers;
 
     // Sugar content in grams per 100g
-    @Column(name = "sugars")
     private Double sugars;
 
     // Salt content in grams per 100g
-    @Column(name = "salt")
     private Double salt;
 
     // Vitamin A content in micrograms (µg) per 100g
-    @Column(name = "vitamin_a")
     private Double vitaminA;
 
     // Vitamin C content in milligrams (mg) per 100g
-    @Column(name = "vitamin_c")
     private Double vitaminC;
 
     // Calcium content in milligrams (mg) per 100g
-    @Column(name = "calcium")
     private Double calcium;
 
     // Iron content in milligrams (mg) per 100g
-    @Column(name = "iron")
     private Double iron;
 
-    // Constructors
+    // --- Constructors ---
 
     // Default constructor for JPA (Java Persistence API)
     public NutritionalValue() {
@@ -83,7 +67,7 @@ public class NutritionalValue {
         this.iron = iron;
     }
 
-    // Getters and Setters
+    // --- Getters and Setters ---
 
     public Long getId() {
         return id;
