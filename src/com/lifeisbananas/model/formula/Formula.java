@@ -12,10 +12,12 @@ import java.util.List;
  * and preparation method for a freeze-dried snack product.
  * A formula is the blueprint for creating products.
  */
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class Formula {
 
     // The id of the formula
-    private String formulaID;
+    private int formulaID;
 
     // Name of the formula (e.g., "Tropical Mix", "Berry Blast")
     private String name;
@@ -64,7 +66,7 @@ public class Formula {
     }
 
     // Constructor with essential fields
-    public Formula(String formulaID, String name, String version, String preparationMethod) {
+    public Formula(int formulaID, String name, String version, String preparationMethod) {
         this.formulaID = formulaID;
         this.name = name;
         this.version = version;
@@ -74,7 +76,7 @@ public class Formula {
     }
 
     // Full constructor including bio-engineer
-    public Formula(String formulaID, String name, String version, String preparationMethod,
+    public Formula(int formulaID, String name, String version, String preparationMethod,
                    BioEngineer bioEngineer) {
         this.formulaID = formulaID;
         this.name = name;
@@ -112,11 +114,11 @@ public class Formula {
 
     // --- Getters and Setters ---
 
-    public String getFormulaID() {
+    public int getFormulaID() {
         return formulaID;
     }
 
-    public void setFormulaID(String formulaID) {
+    public void setFormulaID(int formulaID) {
         this.formulaID = formulaID;
     }
 

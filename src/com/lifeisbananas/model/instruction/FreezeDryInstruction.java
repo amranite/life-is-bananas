@@ -11,10 +11,12 @@ import java.util.List;
  * This document is generated for external production facilities and can be exported to PDF.
  * Contains step-by-step instructions and technical parameters for the freeze-drying process.
  */
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class FreezeDryInstruction {
 
     // The id of the freeze drying instruction
-    private String instructionID;
+    private int instructionID;
 
     // Name of the formula this instruction is based on
     private String formulaName;
@@ -56,7 +58,7 @@ public class FreezeDryInstruction {
     }
 
     // Constructor with essential fields
-    public FreezeDryInstruction(String instructionID, String formulaName, String version,
+    public FreezeDryInstruction(int instructionID, String formulaName, String version,
                                 String steps, String remarks) {
         this.instructionID = instructionID;
         this.formulaName = formulaName;
@@ -67,7 +69,7 @@ public class FreezeDryInstruction {
     }
 
     // Full constructor including formula and bio-engineer
-    public FreezeDryInstruction(String instructionID, String formulaName, String version,
+    public FreezeDryInstruction(int instructionID, String formulaName, String version,
                                 String steps, String remarks, Formula formula,
                                 BioEngineer bioEngineer) {
         this.instructionID = instructionID;
@@ -145,11 +147,11 @@ public class FreezeDryInstruction {
 
     // --- Getters and Setters ---
 
-    public String getInstructionID() {
+    public int getInstructionID() {
         return instructionID;
     }
 
-    public void setInstructionID(String instructionID) {
+    public void setInstructionID(int instructionID) {
         this.instructionID = instructionID;
     }
 

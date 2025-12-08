@@ -8,10 +8,12 @@ import com.lifeisbananas.model.rawmaterial.RawMaterial;
  * Specifies how much of a particular raw material is needed in a formula.
  * This is an association class that connects Formula and RawMaterial.
  */
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class Ingredient {
 
     // The id of the ingredient
-    private Long id;
+    private int id;
 
     // The amount/quantity of the raw material needed
     private Double quantity;
@@ -59,11 +61,11 @@ public class Ingredient {
 
     // --- Getters and Setters ---
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

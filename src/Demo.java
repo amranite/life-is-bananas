@@ -15,7 +15,7 @@ public class Demo {
                 "Fruit Processing"
         );
 
-        bioEngineer.setId(1L);
+        bioEngineer.setId(67);
 
         // Create nutritional value
         NutritionalValue bananaNutritionalValue = new NutritionalValue(
@@ -25,7 +25,7 @@ public class Demo {
 
         // Create raw material
         FruitRawMaterial banana = new FruitRawMaterial(
-                "FRUIT-001",
+                202,
                 "Banana",
                 true,
                 2.50,
@@ -40,7 +40,7 @@ public class Demo {
 
         // Create formula
         Formula formula = new Formula(
-                "FORM-001",
+                101,
                 "Banana Chips",
                 "1.0",
                 "Slice and freeze-dry"
@@ -54,7 +54,9 @@ public class Demo {
 
         // Small printing test
         System.out.println("Engineer: " + bioEngineer.getName());
+        System.out.println("Engineer ID: " + bioEngineer.getId());
         System.out.println("Formula: " + formula.getName());
+        System.out.println("Formula ID: " + formula.getFormulaID());
         System.out.println("Ingredients: " + formula.getIngredients().size());
         System.out.println("Raw Material: " + banana.getName());
         System.out.println("Calories: " + banana.getNutritionalValue().getCalories());

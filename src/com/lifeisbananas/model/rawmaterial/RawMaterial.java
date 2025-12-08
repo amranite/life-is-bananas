@@ -1,7 +1,6 @@
 package com.lifeisbananas.model.rawmaterial;
 
 import com.lifeisbananas.model.nutrition.NutritionalValue;
-import jakarta.persistence.*;
 
 /**
  * Abstract base class representing raw materials (fresh ingredients) used in freeze-dried snacks.
@@ -9,43 +8,29 @@ import jakarta.persistence.*;
  *
  * This class uses JPA Single Table Inheritance strategy with a discriminator column.
  */
-@Entity
-@Table(name = "raw_materials")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "material_type", discriminatorType = DiscriminatorType.STRING)
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public abstract class RawMaterial {
 
-    /**
-     * Using `String` as ID (not auto-generated).
-     * It is assigned manually ("FRUIT-003", "VEG-044")
-     */
-
-    @Id
-    @Column(name = "raw_material_id", length = 50)
-    private String rawMaterialID;
+    // The id of raw material
+    private int rawMaterialID;
 
     // Name of the raw material (e.g., "Banana", "Strawberry", "Spinach")
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
 
     // Indicates whether the raw material is organically certified
-    @Column(name = "organic_certified", nullable = false)
     private Boolean organicCertified;
 
     // Price of the raw material
-    @Column(name = "price")
     private Double price;
 
     // Price of the raw material
-    @Column(name = "unit", length = 20)
     private String unit;
 
     /**
      * Nutritional information per 100g of this raw material.
      * One-to-one composition relationship - nutritional value cannot exist without raw material.
      */
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nutritional_value_id", referencedColumnName = "id")
     private NutritionalValue nutritionalValue;
 
     // --- Constructors ---
@@ -55,7 +40,7 @@ public abstract class RawMaterial {
     }
 
     // Constructor with essential fields
-    public RawMaterial(String rawMaterialID, String name, Boolean organicCertified,
+    public RawMaterial(int rawMaterialID, String name, Boolean organicCertified,
                        Double price, String unit) {
         this.rawMaterialID = rawMaterialID;
         this.name = name;
@@ -65,7 +50,7 @@ public abstract class RawMaterial {
     }
 
     // Full constructor including nutritional value
-    public RawMaterial(String rawMaterialID, String name, Boolean organicCertified,
+    public RawMaterial(int rawMaterialID, String name, Boolean organicCertified,
                        Double price, String unit, NutritionalValue nutritionalValue) {
         this.rawMaterialID = rawMaterialID;
         this.name = name;
@@ -77,11 +62,11 @@ public abstract class RawMaterial {
 
     // --- Getters and Setters ---
 
-    public String getRawMaterialID() {
+    public int getRawMaterialID() {
         return rawMaterialID;
     }
 
-    public void setRawMaterialID(String rawMaterialID) {
+    public void setRawMaterialID(int rawMaterialID) {
         this.rawMaterialID = rawMaterialID;
     }
 

@@ -10,10 +10,12 @@ import java.time.LocalDate;
  * product development and is ready for sale or testing.
  * Each product is based on a specific formula and tracks its lifecycle status.
  */
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class Product {
 
     // The id of the product
-    private String productID;
+    private int productID;
 
     // Commercial name of the product (e.g., "Banana Chips Original", "Berry Mix Deluxe")
     private String name;
@@ -55,7 +57,7 @@ public class Product {
     }
 
     // Constructor with essential fields
-    public Product(String productID, String name, String description, Integer shelfLife,
+    public Product(int productID, String name, String description, Integer shelfLife,
                    Integer weight, String batchNumber) {
         this.productID = productID;
         this.name = name;
@@ -68,7 +70,7 @@ public class Product {
     }
 
     // Full constructor including formula and bio-engineer
-    public Product(String productID, String name, String description, Integer shelfLife,
+    public Product(int productID, String name, String description, Integer shelfLife,
                    Integer weight, String batchNumber, Formula formula, BioEngineer bioEngineer) {
         this.productID = productID;
         this.name = name;
@@ -130,11 +132,11 @@ public class Product {
 
     // --- Getters and Setters ---
 
-    public String getProductID() {
+    public int getProductID() {
         return productID;
     }
 
-    public void setProductID(String productID) {
+    public void setProductID(int productID) {
         this.productID = productID;
     }
 

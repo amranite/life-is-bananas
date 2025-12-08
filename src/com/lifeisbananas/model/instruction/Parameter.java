@@ -5,10 +5,12 @@ package com.lifeisbananas.model.instruction;
  * Parameters define technical values like temperature, pressure, duration, etc.
  * that must be followed during the freeze-drying process.
  */
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class Parameter {
 
     // The id of the parameter
-    private String parameterID;
+    private int parameterID;
 
     // Name/description of the parameter (e.g., "Temperature Phase 1", "Vacuum Pressure", "Drying Duration")
     private String name;
@@ -44,7 +46,7 @@ public class Parameter {
     }
 
     // Constructor with essential fields
-    public Parameter(String parameterID, String name, String value, String unit, Boolean critical) {
+    public Parameter(int parameterID, String name, String value, String unit, Boolean critical) {
         this.parameterID = parameterID;
         this.name = name;
         this.value = value;
@@ -53,7 +55,7 @@ public class Parameter {
     }
 
     // Full constructor including limits
-    public Parameter(String parameterID, String name, String value, String unit,
+    public Parameter(int parameterID, String name, String value, String unit,
                      Double minimumLimit, Double maximumLimit, Boolean critical) {
         this.parameterID = parameterID;
         this.name = name;
@@ -65,7 +67,7 @@ public class Parameter {
     }
 
     // Full constructor including instruction
-    public Parameter(String parameterID, String name, String value, String unit,
+    public Parameter(int parameterID, String name, String value, String unit,
                      Double minimumLimit, Double maximumLimit, Boolean critical,
                      FreezeDryInstruction freezeDryInstruction) {
         this.parameterID = parameterID;
@@ -133,11 +135,11 @@ public class Parameter {
 
     // --- Getters and Setters ---
 
-    public String getParameterID() {
+    public int getParameterID() {
         return parameterID;
     }
 
-    public void setParameterID(String parameterID) {
+    public void setParameterID(int parameterID) {
         this.parameterID = parameterID;
     }
 

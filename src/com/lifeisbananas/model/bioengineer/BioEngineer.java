@@ -12,10 +12,11 @@ import java.util.List;
  * creating formulas, developing products, and generating freeze-drying instructions.
  */
 
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class BioEngineer {
 
     // The id of the bio-engineer
-    private Long id;
+    private int id;
 
     // Full name of the bio-engineer
     private String name;
@@ -98,11 +99,11 @@ public class BioEngineer {
 
     // --- Getters and Setters ---
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

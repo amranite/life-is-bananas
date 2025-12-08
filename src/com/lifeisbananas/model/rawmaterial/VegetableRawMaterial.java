@@ -1,22 +1,19 @@
 package com.lifeisbananas.model.rawmaterial;
 
 import com.lifeisbananas.model.nutrition.NutritionalValue;
-import jakarta.persistence.*;
 
 /**
  * Represents vegetable-based raw materials with specific vegetable characteristics.
  * Extends RawMaterial with vegetable-specific attributes like firmness and moisture content.
  */
-@Entity
-@DiscriminatorValue("VEGETABLE")
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class VegetableRawMaterial extends RawMaterial {
 
     // Firmness of the vegetable (e.g., "soft", "firm", "hard")
-    @Column(name = "firmness", length = 50)
     private String firmness;
 
     // Moisture content of the vegetable (percentage or grams per 100g)
-    @Column(name = "moisture_content")
     private Double moistureContent;
 
     // --- Constructors ---
@@ -27,13 +24,13 @@ public class VegetableRawMaterial extends RawMaterial {
     }
 
     // Constructor with base fields
-    public VegetableRawMaterial(String rawMaterialID, String name, Boolean organicCertified,
+    public VegetableRawMaterial(int rawMaterialID, String name, Boolean organicCertified,
                                 Double price, String unit) {
         super(rawMaterialID, name, organicCertified, price, unit);
     }
 
     // Full constructor including vegetable-specific fields
-    public VegetableRawMaterial(String rawMaterialID, String name, Boolean organicCertified,
+    public VegetableRawMaterial(int rawMaterialID, String name, Boolean organicCertified,
                                 Double price, String unit, NutritionalValue nutritionalValue,
                                 String firmness, Double moistureContent) {
         super(rawMaterialID, name, organicCertified, price, unit, nutritionalValue);

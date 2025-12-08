@@ -6,10 +6,12 @@ package com.lifeisbananas.model.nutrition;
  *
  * All values are measured per 100g of the raw material
  */
+
+@SuppressWarnings("unused") // This annotation is to get rid of the "is never used" warnings
 public class NutritionalValue {
 
     // The id of the nutritional value
-    private Long id;
+    private int id;
 
     // Energy content in kcal per 100g
     private Double calories;
@@ -69,11 +71,11 @@ public class NutritionalValue {
 
     // --- Getters and Setters ---
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
