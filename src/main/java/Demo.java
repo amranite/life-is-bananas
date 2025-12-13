@@ -1,9 +1,9 @@
-import be.lifeisbananas.model.bioengineer.BioEngineer;
-import be.lifeisbananas.model.enums.UnitType;
-import be.lifeisbananas.model.formula.Formula;
-import be.lifeisbananas.model.formula.Ingredient;
-import be.lifeisbananas.model.nutrition.NutritionalValue;
-import be.lifeisbananas.model.rawmaterial.FruitRawMaterial;
+import com.lifeisbananas.model.bioengineer.BioEngineer;
+import com.lifeisbananas.model.enums.UnitType;
+import com.lifeisbananas.model.formula.Formula;
+import com.lifeisbananas.model.formula.Ingredient;
+import com.lifeisbananas.model.nutrition.NutritionalValue;
+import com.lifeisbananas.model.rawmaterial.FruitRawMaterial;
 
 public class Demo {
     public static void main (String[] args) {
