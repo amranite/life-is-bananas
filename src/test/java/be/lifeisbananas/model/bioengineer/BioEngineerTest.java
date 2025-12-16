@@ -1,8 +1,9 @@
 package be.lifeisbananas.model.bioengineer;
 
-import be.lifeisbananas.model.formula.Formula;
-import be.lifeisbananas.model.instruction.FreezeDryInstruction;
-import be.lifeisbananas.model.product.Product;
+import be.lifeisbananas.domain.BioEngineer;
+import be.lifeisbananas.domain.Formula;
+import be.lifeisbananas.domain.FreezeDryInstruction;
+import be.lifeisbananas.domain.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
