@@ -2,7 +2,8 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-.kotlin
+.kotlin/
+.idea/
 
 ### Eclipse ###
 .apt_generated
@@ -28,3 +29,9 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Target files ###
+/target/
+
+### Environment Variables ###
+.env
