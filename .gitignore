@@ -32,6 +32,3 @@ bin/
 
 ### Target files ###
 /target/
-
-### Environment Variables ###
-.env
