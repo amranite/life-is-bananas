@@ -1,4 +1,4 @@
-package be.lifeisbananas.model.bioengineer;
+package be.lifeisbananas.unittests;
 
 import be.lifeisbananas.domain.BioEngineer;
 import be.lifeisbananas.domain.Formula;

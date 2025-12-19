@@ -96,7 +96,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
                 ingredient.setId(rs.getInt("id"));
                 ingredient.setQuantity(rs.getDouble("quantity"));
                 ingredient.setUnit(be.lifeisbananas.domain.UnitType.valueOf(rs.getString("unit")));
-                ingredient.setVolgorde(rs.getInt("volgorde"));
+                ingredient.setSequence(rs.getInt("sequence"));
                 ingredient.setFormula(formula);
 
                 // Load RawMaterial relationship (Grondstof)
