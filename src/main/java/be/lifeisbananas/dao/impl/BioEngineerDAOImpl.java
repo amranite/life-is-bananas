@@ -24,7 +24,7 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
     @Override
     public BioEngineer save(BioEngineer bioEngineer) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(
-                "INSERT INTO BioEngineer (name, email, phoneNumber, specialization) VALUES (?, ?, ?, ?)",
+                "INSERT INTO bio_engineers (name, email, phone_number, specialization) VALUES (?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, bioEngineer.getName());
             stmt.setString(2, bioEngineer.getEmail());
@@ -43,13 +43,13 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
 
     @Override
     public BioEngineer findById(int id) throws SQLException {
-        return executeQuery("SELECT * FROM BioEngineer WHERE id = " + id, rs -> {
+        return executeQuery("SELECT * FROM bio_engineers WHERE id = " + id, rs -> {
             if (rs.next()) {
                 BioEngineer bioEngineer = new BioEngineer();
                 bioEngineer.setId(rs.getInt("id"));
                 bioEngineer.setName(rs.getString("name"));
                 bioEngineer.setEmail(rs.getString("email"));
-                bioEngineer.setPhoneNumber(rs.getString("phoneNumber"));
+                bioEngineer.setPhoneNumber(rs.getString("phone_number"));
                 bioEngineer.setSpecialization(rs.getString("specialization"));
 
                 // Load Formulas relationship
@@ -71,18 +71,18 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
     }
 
     private List<Formula> getFormulasForBioEngineer(BioEngineer bioEngineer) throws SQLException {
-        String sql = "SELECT * FROM Formula WHERE bioEngineer_id = " + bioEngineer.getId();
+        String sql = "SELECT * FROM formulas WHERE bio_engineer_id = " + bioEngineer.getId();
         List<Formula> formulas = new ArrayList<>();
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Formula formula = new Formula();
-                formula.setFormulaID(rs.getInt("formulaID"));
+                formula.setFormulaID(rs.getInt("id"));
                 formula.setName(rs.getString("name"));
                 formula.setVersion(rs.getString("version"));
-                formula.setPreparationMethod(rs.getString("preparationMethod"));
-                formula.setCreationDate(rs.getDate("creationDate").toLocalDate());
-                formula.setLastModified(rs.getDate("lastModified").toLocalDate());
+                formula.setPreparationMethod(rs.getString("preparation_method"));
+                formula.setCreationDate(rs.getDate("creation_date").toLocalDate());
+                formula.setLastModified(rs.getDate("last_modified").toLocalDate());
                 formula.setBioEngineer(bioEngineer);
                 formulas.add(formula);
             }
@@ -92,20 +92,20 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
     }
 
     private List<Product> getProductsForBioEngineer(BioEngineer bioEngineer) throws SQLException {
-        String sql = "SELECT * FROM Product WHERE bioEngineer_id = " + bioEngineer.getId();
+        String sql = "SELECT * FROM products WHERE bio_engineer_id = " + bioEngineer.getId();
         List<Product> products = new ArrayList<>();
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Product product = new Product();
-                product.setProductID(rs.getInt("productID"));
+                product.setProductID(rs.getInt("id"));
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
-                product.setShelfLife(rs.getInt("shelfLife"));
+                product.setShelfLife(rs.getInt("shelf_life"));
                 product.setWeight(rs.getInt("weight"));
-                product.setBatchNumber(rs.getString("batchNumber"));
+                product.setBatchNumber(rs.getString("batch_number"));
 
-                Date prodDate = rs.getDate("productionDate");
+                Date prodDate = rs.getDate("production_date");
                 if (prodDate != null) {
                     product.setProductionDate(prodDate.toLocalDate());
                 }
@@ -124,16 +124,16 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
     }
 
     private List<FreezeDryInstruction> getFreezeDryInstructionsForBioEngineer(BioEngineer bioEngineer) throws SQLException {
-        String sql = "SELECT * FROM FreezeDryInstruction WHERE bioEngineer_id = " + bioEngineer.getId();
+        String sql = "SELECT * FROM freeze_dry_instructions WHERE bio_engineer_id = " + bioEngineer.getId();
         List<FreezeDryInstruction> instructions = new ArrayList<>();
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 FreezeDryInstruction instruction = new FreezeDryInstruction();
-                instruction.setInstructionID(rs.getInt("instructionID"));
-                instruction.setFormulaName(rs.getString("formulaName"));
+                instruction.setInstructionID(rs.getInt("id"));
+                instruction.setFormulaName(rs.getString("formula_name"));
                 instruction.setVersion(rs.getString("version"));
-                instruction.setCreationDate(rs.getDate("creationDate").toLocalDate());
+                instruction.setCreationDate(rs.getDate("creation_date").toLocalDate());
                 instruction.setSteps(rs.getString("steps"));
                 instruction.setRemarks(rs.getString("remarks"));
                 instruction.setBioEngineer(bioEngineer);
@@ -147,7 +147,7 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
     @Override
     public List<BioEngineer> findAll() throws SQLException {
         List<BioEngineer> bioEngineers = new ArrayList<>();
-        String query = "SELECT * FROM BioEngineer";
+        String query = "SELECT * FROM bio_engineers";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
@@ -157,7 +157,7 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
                 bioEngineer.setId(resultSet.getInt("id"));
                 bioEngineer.setName(resultSet.getString("name"));
                 bioEngineer.setEmail(resultSet.getString("email"));
-                bioEngineer.setPhoneNumber(resultSet.getString("phoneNumber"));
+                bioEngineer.setPhoneNumber(resultSet.getString("phone_number"));
                 bioEngineer.setSpecialization(resultSet.getString("specialization"));
 
                 // Load Formulas relationship
@@ -181,7 +181,7 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
     @Override
     public void update(BioEngineer bioEngineer) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(
-                "UPDATE BioEngineer SET name = ?, email = ?, phoneNumber = ?, specialization = ? WHERE id = ?")) {
+                "UPDATE bio_engineers SET name = ?, email = ?, phone_number = ?, specialization = ? WHERE id = ?")) {
             stmt.setString(1, bioEngineer.getName());
             stmt.setString(2, bioEngineer.getEmail());
             stmt.setString(3, bioEngineer.getPhoneNumber());
@@ -193,7 +193,7 @@ public class BioEngineerDAOImpl extends AbstractDAOImpl<BioEngineer> implements 
 
     @Override
     public void delete(BioEngineer bioEngineer) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM BioEngineer WHERE id = ?")) {
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM bio_engineers WHERE id = ?")) {
             stmt.setInt(1, bioEngineer.getId());
             stmt.executeUpdate();
         }

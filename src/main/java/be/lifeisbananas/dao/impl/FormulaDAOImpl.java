@@ -22,7 +22,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
     @Override
     public Formula save(Formula formula) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(
-                "INSERT INTO Formula (name, version, preparationMethod, creationDate, lastModified, bioEngineer_id) VALUES (?, ?, ?, ?, ?, ?)",
+                "INSERT INTO formulas (name, version, preparation_method, creation_date, last_modified, bio_engineer_id) VALUES (?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, formula.getName());
             stmt.setString(2, formula.getVersion());
@@ -43,18 +43,18 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
 
     @Override
     public Formula findById(int id) throws SQLException {
-        return executeQuery("SELECT * FROM Formula WHERE formulaID = " + id, rs -> {
+        return executeQuery("SELECT * FROM formulas WHERE id = " + id, rs -> {
             if (rs.next()) {
                 Formula formula = new Formula();
-                formula.setFormulaID(rs.getInt("formulaID"));
+                formula.setFormulaID(rs.getInt("id"));
                 formula.setName(rs.getString("name"));
                 formula.setVersion(rs.getString("version"));
-                formula.setPreparationMethod(rs.getString("preparationMethod"));
-                formula.setCreationDate(rs.getDate("creationDate").toLocalDate());
-                formula.setLastModified(rs.getDate("lastModified").toLocalDate());
+                formula.setPreparationMethod(rs.getString("preparation_method"));
+                formula.setCreationDate(rs.getDate("creation_date").toLocalDate());
+                formula.setLastModified(rs.getDate("last_modified").toLocalDate());
 
                 // Load BioEngineer relationship
-                int bioEngineerId = rs.getInt("bioEngineer_id");
+                int bioEngineerId = rs.getInt("bio_engineer_id");
                 if (bioEngineerId > 0) {
                     BioEngineer bioEngineer = getBioEngineerById(bioEngineerId);
                     formula.setBioEngineer(bioEngineer);
@@ -71,7 +71,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
     }
 
     private BioEngineer getBioEngineerById(int id) throws SQLException {
-        String sql = "SELECT * FROM BioEngineer WHERE id = " + id;
+        String sql = "SELECT * FROM bio_engineers WHERE id = " + id;
         BioEngineer bioEngineer = new BioEngineer();
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
@@ -79,7 +79,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
                 bioEngineer.setId(rs.getInt("id"));
                 bioEngineer.setName(rs.getString("name"));
                 bioEngineer.setEmail(rs.getString("email"));
-                bioEngineer.setPhoneNumber(rs.getString("phoneNumber"));
+                bioEngineer.setPhoneNumber(rs.getString("phone_number"));
                 bioEngineer.setSpecialization(rs.getString("specialization"));
             }
         }
@@ -87,7 +87,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
     }
 
     private List<Ingredient> getIngredientsForFormula(Formula formula) throws SQLException {
-        String sql = "SELECT * FROM Ingredient WHERE formula_id = " + formula.getFormulaID() + " ORDER BY volgorde";
+        String sql = "SELECT * FROM ingredients WHERE formula_id = " + formula.getFormulaID() + " ORDER BY sequence";
         List<Ingredient> ingredients = new ArrayList<>();
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
@@ -100,7 +100,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
                 ingredient.setFormula(formula);
 
                 // Load RawMaterial relationship (Grondstof)
-                int rawMaterialId = rs.getInt("rawMaterial_id");
+                int rawMaterialId = rs.getInt("raw_material_id");
                 if (!rs.wasNull()) {
                     be.lifeisbananas.domain.RawMaterial rawMaterial = getRawMaterialById(rawMaterialId);
                     ingredient.setRawMaterial(rawMaterial);
@@ -114,32 +114,32 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
     }
 
     private be.lifeisbananas.domain.RawMaterial getRawMaterialById(int id) throws SQLException {
-        String sql = "SELECT * FROM RawMaterial WHERE rawMaterialID = " + id;
+        String sql = "SELECT * FROM raw_materials WHERE id = " + id;
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) {
-                String materialType = rs.getString("materialType");
+                String materialType = rs.getString("material_type");
                 be.lifeisbananas.domain.RawMaterial rawMaterial;
 
                 if ("FRUIT".equals(materialType)) {
                     be.lifeisbananas.domain.FruitRawMaterial fruit = new be.lifeisbananas.domain.FruitRawMaterial();
-                    fruit.setRipenessLevel(rs.getString("ripenessLevel"));
-                    double sugarContent = rs.getDouble("sugarContent");
+                    fruit.setRipenessLevel(rs.getString("ripeness_level"));
+                    double sugarContent = rs.getDouble("sugar_content");
                     if (!rs.wasNull()) fruit.setSugarContent(sugarContent);
-                    double acidityLevel = rs.getDouble("acidityLevel");
+                    double acidityLevel = rs.getDouble("acidity_level");
                     if (!rs.wasNull()) fruit.setAcidityLevel(acidityLevel);
                     rawMaterial = fruit;
                 } else {
                     be.lifeisbananas.domain.VegetableRawMaterial vegetable = new be.lifeisbananas.domain.VegetableRawMaterial();
                     vegetable.setFirmness(rs.getString("firmness"));
-                    double moistureContent = rs.getDouble("moistureContent");
+                    double moistureContent = rs.getDouble("moisture_content");
                     if (!rs.wasNull()) vegetable.setMoistureContent(moistureContent);
                     rawMaterial = vegetable;
                 }
 
-                rawMaterial.setRawMaterialID(rs.getInt("rawMaterialID"));
+                rawMaterial.setRawMaterialID(rs.getInt("id"));
                 rawMaterial.setName(rs.getString("name"));
-                boolean organicCertified = rs.getBoolean("organicCertified");
+                boolean organicCertified = rs.getBoolean("organic_certified");
                 if (!rs.wasNull()) rawMaterial.setOrganicCertified(organicCertified);
                 double price = rs.getDouble("price");
                 if (!rs.wasNull()) rawMaterial.setPrice(price);
@@ -154,22 +154,22 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
     @Override
     public List<Formula> findAll() throws SQLException {
         List<Formula> formulas = new ArrayList<>();
-        String query = "SELECT * FROM Formula";
+        String query = "SELECT * FROM formulas";
 
         try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Formula formula = new Formula();
-                formula.setFormulaID(resultSet.getInt("formulaID"));
+                formula.setFormulaID(resultSet.getInt("id"));
                 formula.setName(resultSet.getString("name"));
                 formula.setVersion(resultSet.getString("version"));
-                formula.setPreparationMethod(resultSet.getString("preparationMethod"));
-                formula.setCreationDate(resultSet.getDate("creationDate").toLocalDate());
-                formula.setLastModified(resultSet.getDate("lastModified").toLocalDate());
+                formula.setPreparationMethod(resultSet.getString("preparation_method"));
+                formula.setCreationDate(resultSet.getDate("creation_date").toLocalDate());
+                formula.setLastModified(resultSet.getDate("last_modified").toLocalDate());
 
                 // Load BioEngineer relationship
-                int bioEngineerId = resultSet.getInt("bioEngineer_id");
+                int bioEngineerId = resultSet.getInt("bio_engineer_id");
                 if (bioEngineerId > 0) {
                     BioEngineer bioEngineer = getBioEngineerById(bioEngineerId);
                     formula.setBioEngineer(bioEngineer);
@@ -188,7 +188,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
     @Override
     public void update(Formula formula) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement(
-                "UPDATE Formula SET name = ?, version = ?, preparationMethod = ?, lastModified = ?, bioEngineer_id = ? WHERE formulaID = ?")) {
+                "UPDATE formulas SET name = ?, version = ?, preparation_method = ?, last_modified = ?, bio_engineer_id = ? WHERE id = ?")) {
             stmt.setString(1, formula.getName());
             stmt.setString(2, formula.getVersion());
             stmt.setString(3, formula.getPreparationMethod());
@@ -201,7 +201,7 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
 
     @Override
     public void delete(Formula formula) throws SQLException {
-        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM Formula WHERE formulaID = ?")) {
+        try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM formulas WHERE id = ?")) {
             stmt.setInt(1, formula.getFormulaID());
             stmt.executeUpdate();
         }

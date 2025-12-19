@@ -24,9 +24,9 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
     public RawMaterial save(RawMaterial rawMaterial) throws SQLException {
         String materialType = rawMaterial instanceof FruitRawMaterial ? "FRUIT" : "VEGETABLE";
 
-        String sql = "INSERT INTO RawMaterial (name, organicCertified, price, unit, materialType, " +
-                     "ripenessLevel, sugarContent, acidityLevel, firmness, moistureContent, nutritionalValue_id) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO raw_materials (name, organic_certified, price, unit, material_type, " +
+                "ripeness_level, sugar_content, acidity_level, firmness, moisture_content, nutritional_value_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, rawMaterial.getName());
@@ -64,14 +64,14 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
                 }
 
                 stmt.setNull(9, Types.VARCHAR);  // firmness
-                stmt.setNull(10, Types.DOUBLE);  // moistureContent
+                stmt.setNull(10, Types.DOUBLE);  // moisture_content
             }
             // Vegetable-specific fields
             else if (rawMaterial instanceof VegetableRawMaterial) {
                 VegetableRawMaterial vegetable = (VegetableRawMaterial) rawMaterial;
-                stmt.setNull(6, Types.VARCHAR);  // ripenessLevel
-                stmt.setNull(7, Types.DOUBLE);   // sugarContent
-                stmt.setNull(8, Types.DOUBLE);   // acidityLevel
+                stmt.setNull(6, Types.VARCHAR);  // ripeness_level
+                stmt.setNull(7, Types.DOUBLE);   // sugar_content
+                stmt.setNull(8, Types.DOUBLE);   // acidity_level
 
                 stmt.setString(9, vegetable.getFirmness());
 
@@ -102,7 +102,7 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
 
     @Override
     public RawMaterial findById(int id) throws SQLException {
-        return executeQuery("SELECT * FROM RawMaterial WHERE rawMaterialID = " + id, rs -> {
+        return executeQuery("SELECT * FROM raw_materials WHERE id = " + id, rs -> {
             if (rs.next()) {
                 RawMaterial rawMaterial = mapResultSetToRawMaterial(rs);
                 return List.of(rawMaterial);
@@ -114,7 +114,7 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
     @Override
     public List<RawMaterial> findAll() throws SQLException {
         List<RawMaterial> rawMaterials = new ArrayList<>();
-        String sql = "SELECT * FROM RawMaterial";
+        String sql = "SELECT * FROM raw_materials";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -131,9 +131,9 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
     public void update(RawMaterial rawMaterial) throws SQLException {
         String materialType = rawMaterial instanceof FruitRawMaterial ? "FRUIT" : "VEGETABLE";
 
-        String sql = "UPDATE RawMaterial SET name = ?, organicCertified = ?, price = ?, unit = ?, " +
-                     "materialType = ?, ripenessLevel = ?, sugarContent = ?, acidityLevel = ?, " +
-                     "firmness = ?, moistureContent = ?, nutritionalValue_id = ? WHERE rawMaterialID = ?";
+        String sql = "UPDATE raw_materials SET name = ?, organic_certified = ?, price = ?, unit = ?, " +
+                "material_type = ?, ripeness_level = ?, sugar_content = ?, acidity_level = ?, " +
+                "firmness = ?, moisture_content = ?, nutritional_value_id = ? WHERE id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, rawMaterial.getName());
@@ -171,14 +171,14 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
                 }
 
                 stmt.setNull(9, Types.VARCHAR);  // firmness
-                stmt.setNull(10, Types.DOUBLE);  // moistureContent
+                stmt.setNull(10, Types.DOUBLE);  // moisture_content
             }
             // Vegetable-specific fields
             else if (rawMaterial instanceof VegetableRawMaterial) {
                 VegetableRawMaterial vegetable = (VegetableRawMaterial) rawMaterial;
-                stmt.setNull(6, Types.VARCHAR);  // ripenessLevel
-                stmt.setNull(7, Types.DOUBLE);   // sugarContent
-                stmt.setNull(8, Types.DOUBLE);   // acidityLevel
+                stmt.setNull(6, Types.VARCHAR);  // ripeness_level
+                stmt.setNull(7, Types.DOUBLE);   // sugar_content
+                stmt.setNull(8, Types.DOUBLE);   // acidity_level
 
                 stmt.setString(9, vegetable.getFirmness());
 
@@ -203,7 +203,7 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
 
     @Override
     public void delete(RawMaterial rawMaterial) throws SQLException {
-        String sql = "DELETE FROM RawMaterial WHERE rawMaterialID = ?";
+        String sql = "DELETE FROM raw_materials WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, rawMaterial.getRawMaterialID());
             stmt.executeUpdate();
@@ -211,19 +211,19 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
     }
 
     private RawMaterial mapResultSetToRawMaterial(ResultSet rs) throws SQLException {
-        String materialType = rs.getString("materialType");
+        String materialType = rs.getString("material_type");
         RawMaterial rawMaterial;
 
         if ("FRUIT".equals(materialType)) {
             FruitRawMaterial fruit = new FruitRawMaterial();
-            fruit.setRipenessLevel(rs.getString("ripenessLevel"));
+            fruit.setRipenessLevel(rs.getString("ripeness_level"));
 
-            double sugarContent = rs.getDouble("sugarContent");
+            double sugarContent = rs.getDouble("sugar_content");
             if (!rs.wasNull()) {
                 fruit.setSugarContent(sugarContent);
             }
 
-            double acidityLevel = rs.getDouble("acidityLevel");
+            double acidityLevel = rs.getDouble("acidity_level");
             if (!rs.wasNull()) {
                 fruit.setAcidityLevel(acidityLevel);
             }
@@ -233,7 +233,7 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
             VegetableRawMaterial vegetable = new VegetableRawMaterial();
             vegetable.setFirmness(rs.getString("firmness"));
 
-            double moistureContent = rs.getDouble("moistureContent");
+            double moistureContent = rs.getDouble("moisture_content");
             if (!rs.wasNull()) {
                 vegetable.setMoistureContent(moistureContent);
             }
@@ -242,10 +242,10 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
         }
 
         // Set common fields
-        rawMaterial.setRawMaterialID(rs.getInt("rawMaterialID"));
+        rawMaterial.setRawMaterialID(rs.getInt("id"));
         rawMaterial.setName(rs.getString("name"));
 
-        boolean organicCertified = rs.getBoolean("organicCertified");
+        boolean organicCertified = rs.getBoolean("organic_certified");
         if (!rs.wasNull()) {
             rawMaterial.setOrganicCertified(organicCertified);
         }
@@ -258,7 +258,7 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
         rawMaterial.setUnit(rs.getString("unit"));
 
         // Load NutritionalValue if exists
-        int nutritionalValueId = rs.getInt("nutritionalValue_id");
+        int nutritionalValueId = rs.getInt("nutritional_value_id");
         if (!rs.wasNull()) {
             NutritionalValue nutritionalValue = getNutritionalValueById(nutritionalValueId);
             rawMaterial.setNutritionalValue(nutritionalValue);
@@ -268,7 +268,7 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
     }
 
     private NutritionalValue getNutritionalValueById(int id) throws SQLException {
-        String sql = "SELECT * FROM NutritionalValue WHERE id = " + id;
+        String sql = "SELECT * FROM nutritional_values WHERE id = " + id;
         NutritionalValue nutritionalValue = new NutritionalValue();
 
         try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
@@ -310,12 +310,12 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
                     nutritionalValue.setSalt(salt);
                 }
 
-                double vitaminA = rs.getDouble("vitaminA");
+                double vitaminA = rs.getDouble("vitamin_a");
                 if (!rs.wasNull()) {
                     nutritionalValue.setVitaminA(vitaminA);
                 }
 
-                double vitaminC = rs.getDouble("vitaminC");
+                double vitaminC = rs.getDouble("vitamin_c");
                 if (!rs.wasNull()) {
                     nutritionalValue.setVitaminC(vitaminC);
                 }
