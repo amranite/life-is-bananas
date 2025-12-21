@@ -1,3 +1,6 @@
-be\lifeisbananas\model\bioengineer\BioEngineerTest.class
+be\lifeisbananas\acceptancetests\steps\FormulaSteps.class
+be\lifeisbananas\acceptancetests\steps\ProductSteps.class
+be\lifeisbananas\unittests\BioEngineerTest.class
+be\lifeisbananas\acceptancetests\steps\BioEngineerSteps.class
 be\lifeisbananas\acceptancetests\steps\MyStepdefs.class
 be\lifeisbananas\acceptancetests\AcceptanceTestSuite.class

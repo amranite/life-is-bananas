@@ -11,6 +11,7 @@ be\lifeisbananas\dao\FormulaDAO.class
 be\lifeisbananas\domain\NutritionalValue.class
 be\lifeisbananas\domain\RawMaterial.class
 be\lifeisbananas\dao\impl\ProductDAOImpl.class
+be\lifeisbananas\MainApplication.class
 Demo.class
 be\lifeisbananas\dao\impl\FormulaDAOImpl.class
 be\lifeisbananas\domain\BioEngineer.class
@@ -29,4 +30,5 @@ be\lifeisbananas\domain\Parameter.class
 be\lifeisbananas\dao\impl\AbstractDAOImpl.class
 be\lifeisbananas\domain\UnitType.class
 be\lifeisbananas\service\impl\RawMaterialServiceImpl$1.class
+be\lifeisbananas\MainController.class
 be\lifeisbananas\dao\BioEngineerDAO.class

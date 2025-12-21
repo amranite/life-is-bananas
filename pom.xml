@@ -23,10 +23,24 @@
         <cucumber.version>7.15.0</cucumber.version>
         <mysql.version>9.1.0</mysql.version>
         <assertj.version>3.24.2</assertj.version>
+        <javafx.version>21</javafx.version>
     </properties>
 
     <dependencies>
 
+        <!-- JavaFX Controls -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- JavaFX FXML -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
 
         <!-- MySQL Connector -->
         <dependency>
@@ -163,6 +177,16 @@
                     <includes>
                         <include>**/*Suite.java</include>
                     </includes>
+                </configuration>
+            </plugin>
+
+            <!-- JavaFX Maven Plugin -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>be.lifeisbananas.MainApplication</mainClass>
                 </configuration>
             </plugin>
 

@@ -20,6 +20,8 @@ public class ProductDAOImpl extends AbstractDAOImpl<Product> implements ProductD
 
     public ProductDAOImpl() throws SQLException {
         super();
+        this.formulaDAO = new FormulaDAOImpl();
+        this.bioEngineerDAO = new BioEngineerDAOImpl();
     }
 
     public void setFormulaDAO(FormulaDAO formulaDAO) {

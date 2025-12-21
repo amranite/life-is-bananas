@@ -6,6 +6,7 @@ C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\domain\VegetableRawMa
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\domain\Formula.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\domain\BioEngineer.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\service\impl\BioEngineerServiceImpl.java
+C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\MainController.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\dao\BioEngineerDAO.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\service\RawMaterialService.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\service\impl\ProductServiceImpl.java
@@ -13,6 +14,7 @@ C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\dao\impl\FormulaDAOIm
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\dao\RawMaterialDAO.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\domain\UnitType.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\domain\FruitRawMaterial.java
+C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\MainApplication.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\dao\impl\AbstractDAOImpl.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\domain\FreezeDryInstruction.java
 C:\iliasgit\life-is-bananas\src\main\java\be\lifeisbananas\service\BioEngineerService.java
