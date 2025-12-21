@@ -4,6 +4,7 @@ import be.lifeisbananas.dao.FormulaDAO;
 import be.lifeisbananas.domain.Formula;
 import be.lifeisbananas.domain.BioEngineer;
 import be.lifeisbananas.domain.Ingredient;
+import be.lifeisbananas.domain.RawMaterial;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -203,6 +204,33 @@ public class FormulaDAOImpl extends AbstractDAOImpl<Formula> implements FormulaD
     public void delete(Formula formula) throws SQLException {
         try (PreparedStatement stmt = connection.prepareStatement("DELETE FROM formulas WHERE id = ?")) {
             stmt.setInt(1, formula.getFormulaID());
+            stmt.executeUpdate();
+        }
+    }
+
+    @Override
+    public RawMaterial findRawMaterialByName(String name) throws SQLException {
+        String sql = "SELECT * FROM raw_materials WHERE name = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, name);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return getRawMaterialById(rs.getInt("id"));
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void addIngredient(int formulaId, int rawMaterialId, double quantity, be.lifeisbananas.domain.UnitType unit, int sequence) throws SQLException {
+        String sql = "INSERT INTO ingredients (formula_id, raw_material_id, quantity, unit, sequence) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, formulaId);
+            stmt.setInt(2, rawMaterialId);
+            stmt.setDouble(3, quantity);
+            stmt.setString(4, unit.toString());
+            stmt.setInt(5, sequence);
             stmt.executeUpdate();
         }
     }

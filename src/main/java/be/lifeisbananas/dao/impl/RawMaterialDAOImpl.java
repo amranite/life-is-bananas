@@ -22,6 +22,12 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
 
     @Override
     public RawMaterial save(RawMaterial rawMaterial) throws SQLException {
+        // Save nutritional value first if it exists
+        if (rawMaterial.getNutritionalValue() != null && rawMaterial.getNutritionalValue().getId() == 0) {
+            NutritionalValue nutritionalValue = saveNutritionalValue(rawMaterial.getNutritionalValue());
+            rawMaterial.setNutritionalValue(nutritionalValue);
+        }
+
         String materialType = rawMaterial instanceof FruitRawMaterial ? "FRUIT" : "VEGETABLE";
 
         String sql = "INSERT INTO raw_materials (name, organic_certified, price, unit, material_type, " +
@@ -98,6 +104,42 @@ public class RawMaterialDAOImpl extends AbstractDAOImpl<RawMaterial> implements 
             }
         }
         return rawMaterial;
+    }
+
+    private NutritionalValue saveNutritionalValue(NutritionalValue nutritionalValue) throws SQLException {
+        String sql = "INSERT INTO nutritional_values (calories, proteins, carbohydrates, fats, fibers, sugars, salt, vitamin_a, vitamin_c, calcium, iron) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            setNullableDouble(stmt, 1, nutritionalValue.getCalories());
+            setNullableDouble(stmt, 2, nutritionalValue.getProteins());
+            setNullableDouble(stmt, 3, nutritionalValue.getCarbohydrates());
+            setNullableDouble(stmt, 4, nutritionalValue.getFats());
+            setNullableDouble(stmt, 5, nutritionalValue.getFibers());
+            setNullableDouble(stmt, 6, nutritionalValue.getSugars());
+            setNullableDouble(stmt, 7, nutritionalValue.getSalt());
+            setNullableDouble(stmt, 8, nutritionalValue.getVitaminA());
+            setNullableDouble(stmt, 9, nutritionalValue.getVitaminC());
+            setNullableDouble(stmt, 10, nutritionalValue.getCalcium());
+            setNullableDouble(stmt, 11, nutritionalValue.getIron());
+
+            stmt.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    nutritionalValue.setId(generatedKeys.getInt(1));
+                }
+            }
+        }
+        return nutritionalValue;
+    }
+
+    private void setNullableDouble(PreparedStatement stmt, int index, Double value) throws SQLException {
+        if (value != null) {
+            stmt.setDouble(index, value);
+        } else {
+            stmt.setNull(index, Types.DOUBLE);
+        }
     }
 
     @Override
